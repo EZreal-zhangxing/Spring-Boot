@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>index.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  	
+  <body>
+   	<div id="userid"></div>
+   	<div id="text" style="width:80%; border: 1px black solid; margin:0 auto;">
+   	</div>
+    <div style="width: 20%;margin:0 auto;">
+    	<input type="text" width="80%" style="height: 40px; margin-top: 10px;" id="message"></input>
+    	<input type="button" width="20%" id="sendButton" value="发送"></input>
+    </div>
+    
+  </body>
+  	
+<script src="js/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript">
+  var userid;
+        if ("WebSocket" in window)
+        {
+           //alert("您的浏览器支持 WebSocket!");
+           // 打开一个 web socket
+           var ws = new WebSocket("ws://localhost:8080/websocket");
+            
+           ws.onopen = function()
+           {
+              // Web Socket 已连接上，使用 send() 方法发送数据
+              //ws.send("初始化连接");
+           };
+            
+           ws.onmessage = function (evt) 
+           { 
+              var received_msg = evt.data;
+              console.log(received_msg);
+              var obj=eval("("+received_msg+")");
+              console.log(obj);
+              if(obj.type==1){
+            	  userid=obj.user;
+            	  $("#userid").html(obj.user);
+              }
+              $("#text").html($("#text").html()+obj.user + " : " +obj.message+"<br/>");
+           };
+            
+           ws.onclose = function()
+           { 
+              // 关闭 websocket
+              alert("连接已关闭..."); 
+           };
+           
+           $("#sendButton").click(function (){
+	           	var mes=$("#message").val();
+	           	var messtr="{user:"+userid+",type:2,message:'"+mes+"'}"
+	           	ws.send(messtr)
+           });
+        }else
+        {
+           // 浏览器不支持 WebSocket
+           alert("您的浏览器不支持 WebSocket!");
+        }
+	</script>
+</html>
