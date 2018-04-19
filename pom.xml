@@ -124,6 +124,12 @@
 		  <groupId>org.springframework</groupId>
 		  <artifactId>spring-websocket</artifactId>
 		</dependency>
+		
+		<!-- redis -->
+		<dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-redis</artifactId>  
+        </dependency>
     </dependencies>  
 	          
     <build>

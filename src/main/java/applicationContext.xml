@@ -24,4 +24,5 @@
 		<property name="basePackage" value="com.zx.Dao"></property>
 		<property name="sqlSessionFactoryBeanName" value="sessionFactory"></property>
 	</bean>
+	
 </beans>
